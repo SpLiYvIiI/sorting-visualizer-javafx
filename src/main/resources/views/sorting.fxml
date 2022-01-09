@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="837.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="racxa.controllers.SortingController">
+   <children>
+      <Button fx:id="startSortButton" layoutX="652.0" layoutY="34.0" mnemonicParsing="false" onAction="#startSorting" prefHeight="25.0" prefWidth="61.0" text="Start" />
+      <Button fx:id="pauseSortingButton" disable="true" layoutX="741.0" layoutY="34.0" mnemonicParsing="false" onAction="#pauseSorting" prefHeight="25.0" prefWidth="61.0" text="Pause" />
+      <Slider fx:id="sortingSpeedSlider" blockIncrement="1.0" layoutX="359.0" layoutY="40.0" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" onMouseReleased="#initSortingSpeed" prefHeight="17.0" prefWidth="98.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Label layoutX="371.0" layoutY="14.0" text="Sorting speed" />
+      <Slider fx:id="arraySizeSlider" layoutX="205.0" layoutY="40.0" majorTickUnit="10.0" min="20.0" onMouseReleased="#initArraySize" prefHeight="17.0" prefWidth="98.0" showTickLabels="true" showTickMarks="true" value="60.0" />
+      <Label layoutX="229.0" layoutY="14.0" text="Array size" />
+      <Button fx:id="generateRandomButton" layoutX="35.0" layoutY="36.0" mnemonicParsing="false" onAction="#generateRandom" text="Randomize array" />
+      <ChoiceBox fx:id="sortingAlgorithm" layoutX="484.0" layoutY="34.0" nodeOrientation="LEFT_TO_RIGHT" prefWidth="150.0" scaleShape="false" />
+      <Pane fx:id="sortingPane" layoutX="20.0" layoutY="80.0" prefHeight="400.0" prefWidth="800.0" scaleY="-1.0" />
+      <Button layoutX="20.0" layoutY="488.0" mnemonicParsing="false" onAction="#openSortingHistory" prefHeight="31.0" prefWidth="98.0" text="Sorting history" />
+      <Button fx:id="logOutButton" layoutX="759.0" layoutY="488.0" mnemonicParsing="false" onAction="#logOut" prefHeight="31.0" prefWidth="61.0" text="Log out" />
+   </children>
+</Pane>
