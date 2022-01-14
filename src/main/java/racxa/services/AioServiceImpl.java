@@ -1,5 +1,6 @@
 package racxa.services;
 
+import lombok.extern.slf4j.Slf4j;
 import racxa.dtos.SortHistoryDto;
 import racxa.utils.Constants;
 import racxa.utils.JdbcConnection;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+@Slf4j
 public class AioServiceImpl implements AioService{
 
     @Override
@@ -27,8 +29,8 @@ public class AioServiceImpl implements AioService{
                 }
             }
         }
-        catch (NullPointerException | SQLException err){
-            System.out.println(err.getMessage());
+        catch (SQLException err){
+            log.error("Couldn't execute loginUser() " + err.getMessage());
         }
         throw new InvalidCredentialsException("Username or password is incorrect");
     }
@@ -53,8 +55,8 @@ public class AioServiceImpl implements AioService{
             pstmt.setString(2,password);
             pstmt.executeUpdate();
         }
-        catch (NullPointerException | SQLException err){
-            System.out.println(err.getMessage());
+        catch (SQLException err){
+            log.error("Couldn't execute registerUser() " + err.getMessage());
             throw new RecordAlreadyExistsException("User with such username already exists");
         }
     }
@@ -69,8 +71,8 @@ public class AioServiceImpl implements AioService{
             pstmt.setLong(1,Constants.CURRUSER);
             pstmt.setLong(2, Constants.AVAILABLEALGOS.get(algoType));
             pstmt.executeUpdate();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException err) {
+            log.error("Couldn't execute registerSort() " + err.getMessage());
         }
     }
 
@@ -86,8 +88,8 @@ public class AioServiceImpl implements AioService{
                 Constants.AVAILABLEALGOS.put(resultSet.getString("sortName"),resultSet.getLong("sortAlgoId"));
             }
         }
-        catch (NullPointerException | SQLException err){
-            System.out.println(err.getMessage());
+        catch (SQLException err){
+            log.error("Couldn't execute getAlgoTypes() " + err.getMessage());
         }
     }
 
@@ -112,8 +114,8 @@ public class AioServiceImpl implements AioService{
                 res.add(s);
             }
         }
-        catch (NullPointerException | SQLException err){
-            System.out.println(err.getMessage());
+        catch (SQLException err){
+           log.error("Couldn't execute getSortingHistory() " + err.getMessage());
         }
         return res;
     }

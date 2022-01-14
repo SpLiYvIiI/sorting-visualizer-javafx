@@ -15,6 +15,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lombok.extern.slf4j.Slf4j;
 import racxa.services.AioService;
 import racxa.services.AioServiceImpl;
 import racxa.utils.Constants;
@@ -28,6 +29,7 @@ import java.net.URL;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
+@Slf4j
 public class EntranceController implements Initializable {
     private Properties p;
     private FadeTransition fadeOut;
@@ -49,7 +51,7 @@ public class EntranceController implements Initializable {
             Constants.jdbcPassword = p.getProperty("jdbcPassword");
             Constants.jdbcConnectionUrl = p.getProperty("jdbcConnectionUrl");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error("Can't read database options from src/main/resources/properties/database.properties");
         }
         fadeOut = new FadeTransition(Duration.millis(3500));
         aioService = new AioServiceImpl();
@@ -71,6 +73,7 @@ public class EntranceController implements Initializable {
             usernameField.setText("");
             Pane sortingPane = fxmlLoader.load(getClass().getResourceAsStream("/views/sorting.fxml"));
             Stage primaryStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
+            log.info("User with " + Constants.CURRUSER + " id logged in");
             primaryStage.hide();
             primaryStage.setScene(new Scene(sortingPane));
             primaryStage.centerOnScreen();
@@ -79,8 +82,11 @@ public class EntranceController implements Initializable {
             primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/static/mainlogo.png")));
             primaryStage.show();
         }
-        catch (InvalidCredentialsException | IOException err){
+        catch (InvalidCredentialsException err){
             setNotification(err.getMessage(),Color.RED);
+        }
+        catch (IOException err){
+            log.error("Couldn't load view /views/sorting.fxml");
         }
     }
 

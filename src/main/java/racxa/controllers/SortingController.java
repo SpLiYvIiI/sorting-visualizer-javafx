@@ -16,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import racxa.services.AioService;
 import racxa.services.AioServiceImpl;
 import racxa.sortingalgorithms.Sort;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+@Slf4j
 public class SortingController implements Initializable {
 
     Sort currSortAlgo;
@@ -54,7 +56,6 @@ public class SortingController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println(Constants.CURRUSER);
         st = new SequentialTransition();
         Constants.ARRAYSIZE = (int) arraySizeSlider.getValue();
         Constants.OFFSET = Constants.PANEWIDTH / Constants.ARRAYSIZE;
@@ -86,6 +87,7 @@ public class SortingController implements Initializable {
             isActive = false;
             isSorted = true;
             aioService.registerSort(sortingAlgorithm.getValue());
+            log.info("User sorted array using " + sortingAlgorithm.getValue() + " algorithm");
         });
     }
 
@@ -132,6 +134,7 @@ public class SortingController implements Initializable {
             st.getChildren().clear();
             Pane entrancePane = fxmlLoader.load(getClass().getResourceAsStream("/views/entrance.fxml"));
             Stage primaryStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            log.info("User logged out");
             primaryStage.hide();
             primaryStage.setScene(new Scene(entrancePane));
             primaryStage.centerOnScreen();
@@ -141,7 +144,7 @@ public class SortingController implements Initializable {
             primaryStage.show();
         }
         catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error("Couldn't load view /views/entrance.fxml");
         }
     }
 
