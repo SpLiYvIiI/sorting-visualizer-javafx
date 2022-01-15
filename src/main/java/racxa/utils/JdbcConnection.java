@@ -12,7 +12,6 @@ public class JdbcConnection {
         String dbUser = Constants.jdbcUserName;
         String dbPass = Constants.jdbcPassword;
         Connection c = DriverManager.getConnection(dbUrl, dbUser, dbPass);
-        log.info("Opened connection to db");
         return c;
     }
 }

@@ -16,13 +16,12 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lombok.extern.slf4j.Slf4j;
-import racxa.services.AioService;
-import racxa.services.AioServiceImpl;
+import racxa.repositories.AioRepository;
+import racxa.repositories.AioRepositoryImpl;
 import racxa.utils.Constants;
 import racxa.utils.exceptions.InvalidCredentialsException;
 import racxa.utils.exceptions.RecordAlreadyExistsException;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +32,7 @@ import java.util.ResourceBundle;
 public class EntranceController implements Initializable {
     private Properties p;
     private FadeTransition fadeOut;
-    AioService aioService;
+    AioRepository aioRepository;
     @FXML
     private TextField usernameField;
     @FXML
@@ -54,7 +53,7 @@ public class EntranceController implements Initializable {
             log.error("Can't read database options from src/main/resources/properties/database.properties");
         }
         fadeOut = new FadeTransition(Duration.millis(3500));
-        aioService = new AioServiceImpl();
+        aioRepository = new AioRepositoryImpl();
         fadeOut.setNode(errorMessage);
         fadeOut.setFromValue(1.0);
         fadeOut.setToValue(0.0);
@@ -69,7 +68,7 @@ public class EntranceController implements Initializable {
         String password = passwordField.getText();
         try{
             passwordField.setText("");
-            aioService.loginUser(userName,password);
+            aioRepository.loginUser(userName,password);
             usernameField.setText("");
             Pane sortingPane = fxmlLoader.load(getClass().getResourceAsStream("/views/sorting.fxml"));
             Stage primaryStage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
@@ -96,7 +95,7 @@ public class EntranceController implements Initializable {
         String userName = usernameField.getText();
         String password = passwordField.getText();
         try{
-            aioService.registerUser(userName,password);
+            aioRepository.registerUser(userName,password);
             setNotification("User successfully registered",Color.GREEN);
         }
         catch (InvalidCredentialsException | RecordAlreadyExistsException err){

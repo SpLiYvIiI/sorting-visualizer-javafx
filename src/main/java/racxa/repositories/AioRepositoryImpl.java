@@ -1,4 +1,4 @@
-package racxa.services;
+package racxa.repositories;
 
 import lombok.extern.slf4j.Slf4j;
 import racxa.dtos.SortHistoryDto;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 @Slf4j
-public class AioServiceImpl implements AioService{
+public class AioRepositoryImpl implements AioRepository {
 
     @Override
     public void loginUser(String username, String password) throws InvalidCredentialsException {

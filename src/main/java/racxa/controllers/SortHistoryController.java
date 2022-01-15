@@ -6,14 +6,14 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import racxa.dtos.SortHistoryDto;
-import racxa.services.AioService;
-import racxa.services.AioServiceImpl;
+import racxa.repositories.AioRepository;
+import racxa.repositories.AioRepositoryImpl;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class SortHistoryController implements Initializable {
-    private AioService aioService;
+    private AioRepository aioRepository;
     @FXML
     private TableView sortHistoryTable;
     @Override
@@ -34,8 +34,8 @@ public class SortHistoryController implements Initializable {
         sortHistoryTable.getColumns().add(column2);
         sortHistoryTable.getColumns().add(column3);
         sortHistoryTable.getColumns().add(column4);
-        aioService = new AioServiceImpl();
-        ArrayList<SortHistoryDto> sortHistoryDtos = aioService.getSortingHistory();
+        aioRepository = new AioRepositoryImpl();
+        ArrayList<SortHistoryDto> sortHistoryDtos = aioRepository.getSortingHistory();
         for(SortHistoryDto dt : sortHistoryDtos)
             sortHistoryTable.getItems().add(dt);
     }

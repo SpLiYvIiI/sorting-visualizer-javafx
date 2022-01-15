@@ -17,8 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
-import racxa.services.AioService;
-import racxa.services.AioServiceImpl;
+import racxa.repositories.AioRepository;
+import racxa.repositories.AioRepositoryImpl;
 import racxa.sortingalgorithms.Sort;
 import racxa.sortingalgorithms.SortingFactory;
 import racxa.utils.Constants;
@@ -35,7 +35,7 @@ public class SortingController implements Initializable {
     SequentialTransition st;
     boolean isActive = false;
     boolean isSorted = false;
-    AioService aioService;
+    AioRepository aioRepository;
     @FXML
     private Pane sortingPane;
     @FXML
@@ -60,8 +60,8 @@ public class SortingController implements Initializable {
         Constants.ARRAYSIZE = (int) arraySizeSlider.getValue();
         Constants.OFFSET = Constants.PANEWIDTH / Constants.ARRAYSIZE;
         Constants.SORTINGSPEED = 20/(int) sortingSpeedSlider.getValue();
-        aioService = new AioServiceImpl();
-        aioService.getAlgoTypes();
+        aioRepository = new AioRepositoryImpl();
+        aioRepository.getAlgoTypes();
         sortArr = Helper.generateArr();
         sortingPane.getChildren().addAll(sortArr);
         sortingAlgorithm.setItems(FXCollections.observableArrayList(Constants.AVAILABLEALGOS.keySet()));
@@ -86,7 +86,7 @@ public class SortingController implements Initializable {
             pauseSortingButton.setDisable(true);
             isActive = false;
             isSorted = true;
-            aioService.registerSort(sortingAlgorithm.getValue());
+            aioRepository.registerSort(sortingAlgorithm.getValue());
             log.info("User sorted array using " + sortingAlgorithm.getValue() + " algorithm");
         });
     }
